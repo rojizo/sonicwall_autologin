@@ -12,8 +12,8 @@ import requests
 from HTMLParser import HTMLParser
 
 # Enter your username and password
-UNAME = 'XXX'
-PASSWORD = 'YYY' # Fill it in suckers
+UNAME = ''
+PASSWORD = '' # Fill it in suckers
 
 BEAT_INTERVAL = 15
 MIN_RELOGIN = 10
@@ -49,7 +49,7 @@ class InputFieldParser(HTMLParser):
 
 def bake_cookies(p):
     cookies = {}
-    cookies['SessId'] = p.sess_id
+    cookies['SessId'] = ""
     page_seed = md5((p.param2 + PASSWORD).encode("ascii")).hexdigest()
     print('PageSeed, ' + page_seed)
     cookies['PageSeed'] = page_seed
@@ -62,7 +62,7 @@ def make_form(p):
     form['param1'] = ''
     form['param2'] = p.param2
     form['id'] = p.rid
-    form['sessId'] = p.sess_id
+    form['sessId'] = ""
     form['select2'] = 'English'
     form['uName'] = UNAME
     form['pass'] = PASSWORD
@@ -82,6 +82,7 @@ def parse_beat(data):
 
 def do_login():
     p = req_login_page()
+    print(p.__dict__)
     print('Got login page')
     cookies = bake_cookies(p)
     form = make_form(p)
